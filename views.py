@@ -1,8 +1,13 @@
 from django.shortcuts import render
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from . models import Student
+from . serializers import StudentSerializer
+from rest_framework.permissions import IsAuthenticated
+from . import customauth
+# Create your views here.
 
-class HelloView(APIView):
-    def get(self, request):
-        content = {'message':'Hello, world'}
-        return Response(content)
+
+class StudentModelViewSet(viewsets.ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    authentication_classes = [customauth]
+    permission_classes = [IsAuthenticated]
